@@ -3,7 +3,10 @@
   import { goto } from '$app/navigation'
 
   async function logout() {
-    await fetch('/auth/logout')
+    await fetch('/auth/logout', { method: 'post' })
+
+    // required to update the user interface
+    $session = {}
     await goto('/')
   }
 </script>
