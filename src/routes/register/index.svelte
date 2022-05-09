@@ -11,10 +11,12 @@
     const response = await fetch('/auth/register', {
       method: 'post',
       body: JSON.stringify({ username, password }),
+      headers: { 'Content-Type': 'application/json' },
     })
 
     if (!response.ok) {
-      error = (await response.json())?.message
+      const message = await response.json()
+      error = message.error ? message.error : ''
       return
     }
 
