@@ -6,7 +6,6 @@ specifiers:
   '@sveltejs/kit': next
   '@types/bcrypt': ^5.0.0
   '@types/cookie': ^0.5.1
-  '@types/uuid': ^8.3.4
   '@typescript-eslint/eslint-plugin': ^5.10.1
   '@typescript-eslint/parser': ^5.10.1
   bcrypt: ^5.0.1
@@ -22,20 +21,17 @@ specifiers:
   svelte-preprocess: ^4.10.1
   tslib: ^2.3.1
   typescript: ~4.6.2
-  uuid: ^8.3.2
 
 dependencies:
   '@prisma/client': 3.13.0_prisma@3.13.0
   bcrypt: 5.0.1
   cookie: 0.5.0
-  uuid: 8.3.2
 
 devDependencies:
   '@sveltejs/adapter-auto': 1.0.0-next.40
   '@sveltejs/kit': 1.0.0-next.326_svelte@3.48.0
   '@types/bcrypt': 5.0.0
   '@types/cookie': 0.5.1
-  '@types/uuid': 8.3.4
   '@typescript-eslint/eslint-plugin': 5.22.0_tal4xlmvnofklupd3hwjtzfb4q
   '@typescript-eslint/parser': 5.22.0_hcfsmds2fshutdssjqluwm76uu
   eslint: 8.15.0
@@ -255,10 +251,6 @@ packages:
     resolution: {integrity: sha512-BPdoIt1lfJ6B7rw35ncdwBZrAssjcwzI5LByIrYs+tpXlj/CAkuVdRsgZDdP4lq5EjyWzwxZCqAoFyHKFwp32g==}
     dependencies:
       '@types/node': 17.0.31
-    dev: true
-
-  /@types/uuid/8.3.4:
-    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.22.0_tal4xlmvnofklupd3hwjtzfb4q:
@@ -1870,11 +1862,6 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
-    dev: false
-
-  /uuid/8.3.2:
-    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
     dev: false
 
   /v8-compile-cache/2.3.0:
