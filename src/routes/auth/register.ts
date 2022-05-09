@@ -10,7 +10,7 @@ export const post: RequestHandler = async ({ request }) => {
     return {
       status: 400,
       body: {
-        message: 'Username and password is required.',
+        error: 'Username and password is required.',
       },
     }
   }
@@ -26,7 +26,7 @@ export const post: RequestHandler = async ({ request }) => {
     return {
       status: 400,
       body: {
-        message: 'User already exists.',
+        error: 'User already exists.',
       },
     }
   }

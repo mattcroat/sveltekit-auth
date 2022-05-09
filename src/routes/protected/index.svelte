@@ -9,9 +9,22 @@
       }
     }
 
-    // todo
-    return {}
+    return {
+      status: 200,
+      props: {
+        user: session.user.username,
+      },
+    }
   }
 </script>
 
+<script lang="ts">
+  export let user: string
+
+  // import { session } from '$app/stores'
+  // console.log($session)
+</script>
+
 <h1>Protected route</h1>
+
+<p>Welcome {user}!</p>

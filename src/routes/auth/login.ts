@@ -11,8 +11,7 @@ export const post: RequestHandler = async ({ request }) => {
     return {
       status: 400,
       body: {
-        // todo use body.errors
-        message: 'Username and password is required.',
+        error: 'Username and password is required.',
       },
     }
   }
@@ -20,15 +19,15 @@ export const post: RequestHandler = async ({ request }) => {
   const user = await db.user.findUnique({
     where: { username },
   })
-  const isPasswordMatch =
+  const passwordMatch =
     user &&
     (await bcrypt.compare(password, user.passwordHash))
 
-  if (!user || !isPasswordMatch) {
+  if (!user || !passwordMatch) {
     return {
-      status: 400,
+      status: 401,
       body: {
-        message: 'You entered the wrong credentials.',
+        error: 'You entered the wrong credentials.',
       },
     }
   }
@@ -37,17 +36,13 @@ export const post: RequestHandler = async ({ request }) => {
     status: 201,
     body: { message: 'Success.' },
     headers: {
-      'Set-Cookie': cookie.serialize(
-        'session',
-        user.username,
-        {
-          path: '/',
-          httpOnly: true,
-          sameSite: 'strict',
-          secure: process.env.NODE_ENV === 'production',
-          maxAge: 60 * 60 * 24 * 30,
-        }
-      ),
+      'Set-Cookie': cookie.serialize('session', user.id, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 60 * 60 * 24 * 30,
+      }),
     },
   }
 }
