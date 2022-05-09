@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { session } from '$app/stores'
   import { goto } from '$app/navigation'
 
   let username = ''
@@ -13,12 +14,17 @@
       body: JSON.stringify({ username, password }),
       headers: { 'Content-Type': 'application/json' },
     })
+    const body = await response.json()
 
     if (!response.ok) {
-      const message = await response.json()
-      error = message.error ? message.error : ''
+      if (body.error) {
+        error = body.error
+      }
       return
     }
+
+    // this is required to redirect to `/protected` otherwise it's `{}`
+    $session = body.user
 
     await goto('/protected')
   }

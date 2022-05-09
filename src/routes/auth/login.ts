@@ -33,8 +33,16 @@ export const post: RequestHandler = async ({ request }) => {
   }
 
   return {
-    status: 201,
-    body: { message: 'Success.' },
+    status: 200,
+    body: {
+      // this is only because $session = body.user
+      // so we can set the session and navigate to `/protected`
+      // look at `/login/index.svelte`
+      user: {
+        user: { username },
+      },
+      message: 'Success.',
+    },
     headers: {
       'Set-Cookie': cookie.serialize('session', user.id, {
         // send cookie for every page
