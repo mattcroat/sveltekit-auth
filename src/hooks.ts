@@ -8,7 +8,7 @@ export const handle: Handle = async ({
   resolve,
 }) => {
   const cookieHeader = event.request.headers.get('cookie')
-  const cookies = cookie.parse(cookieHeader || '')
+  const cookies = cookie.parse(cookieHeader ?? '')
 
   if (!cookies.session) {
     return await resolve(event)
