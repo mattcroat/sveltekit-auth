@@ -12,12 +12,16 @@
 </script>
 
 <nav>
+  <a href="/">Home</a>
+
   {#if !$session.user}
     <a href="/login">Login</a>
     <a href="/register">Register</a>
   {/if}
 
   {#if $session.user}
+    <a href="/protected">Admin</a>
+
     <form
       on:submit|preventDefault={logout}
       action="/auth/logout"
