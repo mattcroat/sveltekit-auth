@@ -11,6 +11,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>SvelteKit Auth</title>
+</svelte:head>
+
 <nav>
   <a href="/">Home</a>
 
