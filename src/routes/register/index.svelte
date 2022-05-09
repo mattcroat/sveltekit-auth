@@ -5,7 +5,7 @@
   let password = ''
   let error = ''
 
-  async function handleSubmit() {
+  async function register() {
     error = ''
 
     const response = await fetch('/auth/register', {
@@ -25,7 +25,7 @@
 </script>
 
 <form
-  on:submit|preventDefault={handleSubmit}
+  on:submit|preventDefault={register}
   action="/auth/register"
   method="post"
 >
