@@ -5,14 +5,30 @@ import * as cookie from 'cookie'
 import { db } from '$lib/database'
 
 export const post: RequestHandler = async ({ request }) => {
-  const { username, password } = await request.json()
+  const form = await request.formData()
+  const username = form.get('username')
+  const password = form.get('password')
+
+  if (
+    typeof username !== 'string' ||
+    typeof password !== 'string'
+  ) {
+    return {
+      status: 303,
+      body: {
+        error: 'Something went horribly wrong.',
+      },
+      headers: { location: '/login' },
+    }
+  }
 
   if (!username || !password) {
     return {
-      status: 400,
+      status: 303,
       body: {
         error: 'Username and password is required.',
       },
+      headers: { location: '/login' },
     }
   }
 
@@ -25,15 +41,17 @@ export const post: RequestHandler = async ({ request }) => {
 
   if (!user || !passwordMatch) {
     return {
-      status: 401,
+      status: 303,
       body: {
         error: 'You entered the wrong credentials.',
       },
+      headers: { location: '/login' },
     }
   }
 
   return {
-    status: 200,
+    // has to return 3xx status code for redirect
+    status: 301,
     body: {
       // this is only because $session = body.user
       // so we can set the session and navigate to `/protected`
@@ -58,6 +76,8 @@ export const post: RequestHandler = async ({ request }) => {
         // set cookie to expire after a month
         maxAge: 60 * 60 * 24 * 30,
       }),
+      // javascript disabled
+      location: '/protected',
     },
   }
 }

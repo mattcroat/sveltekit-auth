@@ -16,22 +16,23 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
 
-  let username = ''
-  let password = ''
   let error = ''
 
-  async function register() {
-    error = ''
+  async function register(event: SubmitEvent) {
+    const form = event.target as HTMLFormElement
+    const data = new FormData(form)
 
-    const response = await fetch('/auth/register', {
-      method: 'post',
-      body: JSON.stringify({ username, password }),
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: data,
+      headers: { accept: 'application/json' },
     })
+    const body = await response.json()
 
     if (!response.ok) {
-      const message = await response.json()
-      error = message.error ? message.error : ''
+      if (body.error) {
+        error = body.error
+      }
       return
     }
 
@@ -47,7 +48,6 @@
   <div>
     <label for="username">Username</label>
     <input
-      bind:value={username}
       id="username"
       name="username"
       type="username"
@@ -58,7 +58,6 @@
   <div>
     <label for="password">Password</label>
     <input
-      bind:value={password}
       id="password"
       name="password"
       type="password"
