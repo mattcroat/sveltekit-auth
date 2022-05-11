@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit'
 
-  export const load: Load = ({ session }) => {
+  export const load: Load = ({ session, props }) => {
     if (session.user) {
       return {
         status: 302,
@@ -9,42 +9,35 @@
       }
     }
 
-    return {}
+    return { props }
   }
 </script>
 
 <script lang="ts">
-  import { goto } from '$app/navigation'
+  import { send } from '$lib/api'
 
-  let error = ''
+  // page endpoint
+  export let error: string
+  export let success: string
 
+  // client
   async function register(event: SubmitEvent) {
-    const form = event.target as HTMLFormElement
-    const data = new FormData(form)
+    const formEl = event.target as HTMLFormElement
+    const response = await send(formEl)
 
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: data,
-      headers: { accept: 'application/json' },
-    })
-    const body = await response.json()
-
-    if (!response.ok) {
-      if (body.error) {
-        error = body.error
-      }
-      return
+    if (response.error) {
+      error = response.error
     }
 
-    await goto('/')
+    if (response.success) {
+      success = response.success
+    }
+
+    formEl.reset()
   }
 </script>
 
-<form
-  on:submit|preventDefault={register}
-  action="/auth/register"
-  method="post"
->
+<form on:submit|preventDefault={register} method="post">
   <div>
     <label for="username">Username</label>
     <input
@@ -67,6 +60,11 @@
 
   {#if error}
     <p class="error">{error}</p>
+  {/if}
+
+  {#if success}
+    <p>Thank you for signing up!</p>
+    <p><a href="/auth/login">You can log in.</a></p>
   {/if}
 
   <button type="submit">Sign Up</button>

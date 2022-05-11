@@ -1,1 +1,1 @@
-<h1>Public route</h1>
+<h1>Public</h1>

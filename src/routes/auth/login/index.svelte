@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
   import type { Load } from '@sveltejs/kit'
 
-  export const load: Load = ({ session }) => {
+  export const load: Load = ({ session, props }) => {
     if (session.user) {
       return {
         status: 302,
@@ -9,48 +9,34 @@
       }
     }
 
-    return {}
+    return { props }
   }
 </script>
 
 <script lang="ts">
   import { session } from '$app/stores'
-  import { goto } from '$app/navigation'
+  import { send } from '$lib/api'
 
-  let error = ''
+  // page endpoint
+  export let error: string
 
+  // client
   async function login(event: SubmitEvent) {
-    const form = event.target as HTMLFormElement
-    const data = new FormData(form)
+    const formEl = event.target as HTMLFormElement
+    const response = await send(formEl)
 
-    const response = await fetch(form.action, {
-      method: form.method,
-      body: data,
-      headers: { accept: 'application/json' },
-    })
-    const body = await response.json()
-
-    form.reset()
-
-    if (!response.ok) {
-      if (body.error) {
-        error = body.error
-      }
-      return
+    if (response.error) {
+      error = response.error
     }
 
     // this is required to redirect to `/protected` otherwise it's `{}`
-    $session = body.user
+    $session.user = response.user
 
-    await goto('/protected')
+    formEl.reset()
   }
 </script>
 
-<form
-  on:submit|preventDefault={login}
-  action="/auth/login"
-  method="post"
->
+<form on:submit|preventDefault={login} method="post">
   <div>
     <label for="username">Username</label>
     <input

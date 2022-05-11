@@ -20,11 +20,8 @@
 
 <script lang="ts">
   export let user: string
-
-  // import { session } from '$app/stores'
-  // console.log($session)
 </script>
 
-<h1>Protected route</h1>
+<h1>Protected</h1>
 
 <p>Welcome {user}!</p>

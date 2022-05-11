@@ -13,21 +13,19 @@ export const post: RequestHandler = async ({ request }) => {
     typeof password !== 'string'
   ) {
     return {
-      status: 303,
+      status: 400,
       body: {
         error: 'Something went horribly wrong.',
       },
-      headers: { location: '/register' },
     }
   }
 
   if (!username || !password) {
     return {
-      status: 303,
+      status: 400,
       body: {
         error: 'Username and password is required.',
       },
-      headers: { location: '/register' },
     }
   }
 
@@ -38,18 +36,17 @@ export const post: RequestHandler = async ({ request }) => {
         passwordHash: await bcrypt.hash(password, 10),
       },
     })
+
+    return {
+      status: 200,
+      body: { success: 'Success.' },
+    }
   } catch (error) {
     return {
-      status: 303,
+      status: 400,
       body: {
         error: 'User already exists.',
       },
-      headers: { location: '/register' },
     }
-  }
-
-  return {
-    status: 301,
-    headers: { location: '/' },
   }
 }

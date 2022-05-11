@@ -14,21 +14,19 @@ export const post: RequestHandler = async ({ request }) => {
     typeof password !== 'string'
   ) {
     return {
-      status: 303,
+      status: 400,
       body: {
-        error: 'Something went horribly wrong.',
+        error: 'Enter a valid username and password.',
       },
-      headers: { location: '/login' },
     }
   }
 
   if (!username || !password) {
     return {
-      status: 303,
+      status: 400,
       body: {
         error: 'Username and password is required.',
       },
-      headers: { location: '/login' },
     }
   }
 
@@ -41,25 +39,19 @@ export const post: RequestHandler = async ({ request }) => {
 
   if (!user || !passwordMatch) {
     return {
-      status: 303,
+      status: 400,
       body: {
         error: 'You entered the wrong credentials.',
       },
-      headers: { location: '/login' },
     }
   }
 
   return {
-    // has to return 3xx status code for redirect
-    status: 301,
+    status: 200,
     body: {
-      // this is only because $session = body.user
-      // so we can set the session and navigate to `/protected`
-      // look at `/login/index.svelte`
-      user: {
-        user: { username },
-      },
-      message: 'Success.',
+      // for updating the session
+      user: { username },
+      success: 'Success.',
     },
     headers: {
       'Set-Cookie': cookie.serialize('session', user.id, {
@@ -76,8 +68,6 @@ export const post: RequestHandler = async ({ request }) => {
         // set cookie to expire after a month
         maxAge: 60 * 60 * 24 * 30,
       }),
-      // javascript disabled
-      location: '/protected',
     },
   }
 }

@@ -1,14 +1,5 @@
 <script lang="ts">
   import { session } from '$app/stores'
-  import { goto } from '$app/navigation'
-
-  async function logout() {
-    await fetch('/auth/logout', { method: 'post' })
-
-    // required to update the user interface
-    $session = {}
-    await goto('/')
-  }
 </script>
 
 <svelte:head>
@@ -19,20 +10,13 @@
   <a href="/">Home</a>
 
   {#if !$session.user}
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
+    <a href="/auth/login">Login</a>
+    <a href="/auth/register">Register</a>
   {/if}
 
   {#if $session.user}
     <a href="/protected">Admin</a>
-
-    <form
-      on:submit|preventDefault={logout}
-      action="/auth/logout"
-      method="post"
-    >
-      <button type="submit">Log out</button>
-    </form>
+    <a href="/auth/logout">Log out</a>
   {/if}
 </nav>
 
