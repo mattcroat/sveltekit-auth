@@ -22,6 +22,8 @@
 
   // client
   async function register(event: SubmitEvent) {
+    error = ''
+
     const formEl = event.target as HTMLFormElement
     const response = await send(formEl)
 
