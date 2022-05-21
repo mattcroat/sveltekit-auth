@@ -54,7 +54,7 @@ export const post: RequestHandler = async ({ request }) => {
       success: 'Success.',
     },
     headers: {
-      'Set-Cookie': cookie.serialize('session', user.id, {
+      'Set-Cookie': cookie.serialize('session', user.userAuthToken, {
         // send cookie for every page
         path: '/',
         // server side only cookie so you can't use `document.cookie`
