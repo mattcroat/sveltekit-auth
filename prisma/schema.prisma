@@ -13,5 +13,5 @@ model User {
   updatedAt     DateTime @updatedAt
   username      String   @unique
   passwordHash  String
-  userAuthToken String   @defualt(cuid())
+  userAuthToken String   @defualt(cuid()) @unique
 }
